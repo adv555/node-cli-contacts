@@ -22,7 +22,7 @@ async function getContactById(contactId) {
   try {
     const data = await fs.readFile(contactsPath, 'utf8');
     const contacts = JSON.parse(data);
-    // console.table(contacts);
+
     const contact = contacts.filter(contact => contact.id === contactId);
 
     return console.table(contact);
@@ -35,7 +35,7 @@ async function removeContact(contactId) {
   try {
     const data = await fs.readFile(contactsPath, 'utf8');
     const contacts = JSON.parse(data);
-    // console.table(contacts);
+
     const updatedContactList = contacts.filter(contact => contact.id !== contactId);
     await fs.writeFile(contactsPath, JSON.stringify(updatedContactList, null, '\t'), 'utf8');
 
