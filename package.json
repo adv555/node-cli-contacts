@@ -1,0 +1,28 @@
+{
+  "name": "cli-contacts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "start:dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adv555/node-cli-contacts.git"
+  },
+  "author": "adv555 <adv55577@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adv555/node-cli-contacts/issues"
+  },
+  "homepage": "https://github.com/adv555/node-cli-contacts#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "commander": "^8.3.0",
+    "nanoid": "^3.1.30"
+  }
+}
