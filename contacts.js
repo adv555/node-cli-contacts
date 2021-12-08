@@ -47,7 +47,6 @@ async function removeContact(contactId) {
 }
 
 async function addContact(name, email, phone) {
-  // ...твой код
   const newContact = { id: await nanoid(), name, email, phone };
   try {
     const data = await fs.readFile(contactsPath, 'utf8');
@@ -55,7 +54,7 @@ async function addContact(name, email, phone) {
 
     const contacts = [...contactsList, newContact];
 
-    await fs.writeFile(contactsPath, JSON.stringify(contacts));
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, '\t'), 'utf8');
 
     console.log('The contact has been saved!');
     return console.table(contacts);
