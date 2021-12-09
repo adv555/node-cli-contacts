@@ -1,17 +1,12 @@
-const fs = require('fs').promises;
-const path = require('path');
 const { customAlphabet } = require('nanoid/async');
 const nanoid = customAlphabet('1234567890', 10);
-
-const contactsPath = path.resolve('db/contacts.json');
-console.log(contactsPath);
+const getAll = require('./db/getAll');
+const updateAll = require('./db/updateAll');
 
 // TODO: задокументировать каждую функцию
 async function listContacts() {
   try {
-    const data = await fs.readFile(contactsPath, 'utf8');
-    const contacts = JSON.parse(data);
-
+    const contacts = await getAll();
     console.table(contacts);
   } catch (err) {
     console.error(error);
@@ -20,12 +15,10 @@ async function listContacts() {
 
 async function getContactById(contactId) {
   try {
-    const data = await fs.readFile(contactsPath, 'utf8');
-    const contacts = JSON.parse(data);
+    const contacts = await getAll();
 
-    const contact = contacts.filter(contact => contact.id === contactId);
-
-    return console.table(contact);
+    const contactById = contacts.filter(contact => contact.id === contactId);
+    return console.table(contactById);
   } catch (error) {
     console.error(error);
   }
@@ -33,14 +26,14 @@ async function getContactById(contactId) {
 
 async function removeContact(contactId) {
   try {
-    const data = await fs.readFile(contactsPath, 'utf8');
-    const contacts = JSON.parse(data);
+    const contacts = await getAll();
 
-    const updatedContactList = contacts.filter(contact => contact.id !== contactId);
-    await fs.writeFile(contactsPath, JSON.stringify(updatedContactList, null, '\t'), 'utf8');
+    const newContacts = contacts.filter(contact => contact.id !== contactId);
+
+    await updateAll(newContacts);
 
     console.log('The contact has been deleted!');
-    console.table(updatedContactList);
+    return console.table(newContacts);
   } catch (error) {
     console.error(error);
   }
@@ -49,15 +42,14 @@ async function removeContact(contactId) {
 async function addContact(name, email, phone) {
   const newContact = { id: await nanoid(), name, email, phone };
   try {
-    const data = await fs.readFile(contactsPath, 'utf8');
-    const contactsList = JSON.parse(data);
+    const contacts = await getAll();
 
-    const contacts = [...contactsList, newContact];
+    const newContacts = [...contacts, newContact];
 
-    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, '\t'), 'utf8');
+    await updateAll(newContacts);
 
     console.log('The contact has been saved!');
-    return console.table(contacts);
+    return console.table(newContacts);
   } catch (error) {
     console.error(error);
   }
